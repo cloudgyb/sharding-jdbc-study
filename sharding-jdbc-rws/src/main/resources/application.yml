@@ -1,0 +1,44 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: master,slaver1,slaver2
+      master:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://192.168.60.128:3306/test?useUnicode=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+      slaver1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://192.168.60.128:3316/test?userUnicode=true&serverTimezone=GMT%2b8
+        username: root
+        password: 123456
+      slaver2:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://192.168.60.128:3326/test?userUnicode=true&serverTimezone=GMT%2b8
+        username: root
+        password: 123456
+    props:
+      sql:
+        show: true
+    masterslave:
+      name: ms
+      master-data-source-name: master
+      slave-data-source-names: slaver1,slaver2
+    sharding:
+      default-data-source-name: master
+      master-slave-rules:
+        ms:
+          master-data-source-name: master
+          slave-data-source-names: slaver1,slaver2
+          load-balance-algorithm-type:
+
+server:
+  port: 8080
+
+mybatis:
+  type-aliases-package: com.github.cloudgyb.shardingjdbc.rws.entity
+
+
