@@ -1,0 +1,44 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: db0,db1
+      db0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://192.168.60.128:13306/test?useUnicode=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+      db1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://192.168.60.128:13316/test?userUnicode=true&serverTimezone=GMT%2b8
+        username: root
+        password: 123456
+    props:
+      sql:
+        show: true
+    sharding:
+      tables:
+        user:
+          actual-data-nodes: db0.user${0..1},db1.user${0..1}
+          database-strategy: #分库策略
+            inline:
+              sharding-column: id
+              algorithm-expression: db${id%2}
+          table-strategy:  #分表策略
+            inline:
+              sharding-column: sex
+              algorithm-expression: user${sex}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+            worker.id: 123
+
+
+server:
+  port: 8081
+
+mybatis:
+  type-aliases-package: com.github.cloudgyb.shardingjdbc.ds.entity
+
+
