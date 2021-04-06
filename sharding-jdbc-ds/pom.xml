@@ -9,8 +9,8 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>sharding-jdbc-ds</artifactId>
+	<version>1.0.1</version>
 	<description>使用Sharding JDBC+Spring Boot实现数据分片Demo项目</description>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -51,5 +51,68 @@
 			<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<!--	生成源码插件		-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--	 javadoc生成插件		-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<!--				<repository>-->
+		<!--					<id>github</id>-->
+		<!--					<name>github</name>-->
+		<!--					<url>https://maven.pkg.github.com/cloudgyb/sharding-jdbc-study/</url>-->
+		<!--				</repository>-->
+		<repository>
+			<id>ossrh</id>
+			<name>oss nexus repository hosting</name>
+			<url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<name>oss nexus repository hosting</name>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 
 </project>
